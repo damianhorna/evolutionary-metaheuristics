@@ -1,5 +1,12 @@
 class ExperimentResult:
-    def __init__(self, average_len, min_len, max_len):
+    def __init__(self, average_len, min_len, max_len, method_classname):
         self.average = average_len
         self.min = min_len
         self.max = max_len
+        self.method_classname=method_classname
+
+    def print(self):
+        print(f"{self.method_classname} result:")
+        print(f"Average: {self.average}")
+        print(f"Min: {self.min}")
+        print(f"Max: {self.max}")
