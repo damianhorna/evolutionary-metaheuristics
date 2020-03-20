@@ -12,7 +12,7 @@ instances = [
 for instance in instances:
     print(f"Working on {instance}")
     graph, coords = TSPReader().read_graph_with_coords(instance)
-    methods = [NearestNeighbor(graph), Greedy(graph), KRegret(graph)]
+    methods = [NearestNeighbor(graph), Greedy(graph)]  # KRegret(graph)
     for method in methods:
         result = method.run()
         result.print()

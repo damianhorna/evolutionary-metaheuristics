@@ -12,16 +12,35 @@ class Greedy(Heuristic):
         while len(cycle) < 50:
             # for each vertex find two visited that are closest and compute cost
             min_cost = float('inf')
-            min_cost_vertex_idx = None
+            min_cost_vertex = None
+            min_insertion_position = None
             for i in range(self.graph.no_of_vertices()):
                 if i not in cycle:
                     first_closest = self.graph.get_closest_visited_idx(from_vertex=i, visited=cycle)
-                    tmp_cycle = [i for i in cycle if i != first_closest]
-                    second_closest = self.graph.get_closest_visited_idx(from_vertex=i, visited=tmp_cycle)
-
-                    insertion_cost = self.graph.cost(first_closest, i) + self.graph.cost(second_closest, i)
-                    if insertion_cost < min_cost:
-                        min_cost = insertion_cost
-                        min_cost_vertex_idx = i
-            cycle.append(min_cost_vertex_idx)
+                    cost, insertion_position = self.establish_insertion_cost(cycle, first_closest, i)
+                    if cost < min_cost:
+                        min_cost = cost
+                        min_cost_vertex = i
+                        min_insertion_position = insertion_position
+            cycle.insert(min_insertion_position, min_cost_vertex)
         return cycle
+
+    def establish_insertion_cost(self, cycle, first_closest, i):
+        """We can insert it either on left or right side -> calculate costs"""
+        left_idx = cycle.index(first_closest) - 1
+        right_idx = cycle.index(first_closest) + 1
+        left, right = None, None
+        cost_left, cost_right = float("inf"), float("inf")
+        if 0 <= left_idx < len(cycle):
+            left = cycle[left_idx]
+            cost_left = self.graph.cost(first_closest, i) + self.graph.cost(i, left)
+        if 0 <= right_idx < len(cycle):
+            right = cycle[right_idx]
+            cost_right = self.graph.cost(first_closest, i) + self.graph.cost(i, right)
+        if cost_left < cost_right:
+            cost = cost_left
+            insertion_position = max(left_idx, cycle.index(first_closest))
+        else:
+            cost = cost_right
+            insertion_position = max(right_idx, cycle.index(first_closest))
+        return cost, insertion_position
