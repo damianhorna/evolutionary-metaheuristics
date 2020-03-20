@@ -11,7 +11,7 @@ class TSPReader:
         f.close()
         return x[6:-1]
 
-    def read_graph_with_coords(self, path: str) -> (Graph, dict):
+    def read_graph_with_coords(self, path: str) -> Graph:
         lines = self.read(path)
         lines = [line.strip("\n").split(" ") for line in lines]
         nodes = [Node(node_name, int(x), int(y)) for node_name, x, y in lines]
@@ -25,5 +25,5 @@ class TSPReader:
             for j, node_b in enumerate(nodes):
                 adjacency_matrix[i, j] = np.round(np.sqrt((node_a.x - node_b.x) ** 2 + (node_a.y - node_b.y) ** 2), 0)
 
-        g = Graph(adjacency_matrix)
-        return g, coords
+        g = Graph(adjacency_matrix, coords)
+        return g

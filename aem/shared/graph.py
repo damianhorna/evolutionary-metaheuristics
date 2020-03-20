@@ -3,8 +3,9 @@ import numpy as np
 
 class Graph:
 
-    def __init__(self, adjacency_matrix):
+    def __init__(self, adjacency_matrix, coords):
         self.adjacency_matrix = adjacency_matrix
+        self.coords = coords
         self.cache = {}
 
     def get_closest_neighbor_idx(self, from_vertex):
