@@ -5,7 +5,7 @@ from aem.experiment_result import ExperimentResult
 class PlotUtil:
 
     @staticmethod
-    def plot_best_cycle(res: ExperimentResult, coords: dict, instance):
+    def plot_best_cycle(res: ExperimentResult, coords: dict, instance: str):
         cycle_coords_x = [coords[v][0] for v in res.best_cycle]
         cycle_coords_y = [coords[v][1] for v in res.best_cycle]
 
