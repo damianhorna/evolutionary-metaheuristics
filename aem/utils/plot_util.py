@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from aem.experiment_result import ExperimentResult
+from aem.shared.experiment_result import ExperimentResult
 
 
 class PlotUtil:

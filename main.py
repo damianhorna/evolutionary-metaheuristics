@@ -1,6 +1,6 @@
-from aem.tsp_reader import TSPReader
-from aem.greedy import Greedy
-from aem.plot_util import PlotUtil
+from aem.utils.tsp_reader import TSPReader
+from aem.heuristics.greedy import Greedy
+from aem.utils.plot_util import PlotUtil
 
 instances = [
     "../data/kroA100.tsp",

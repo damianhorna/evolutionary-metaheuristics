@@ -1,4 +1,4 @@
-from aem.experiment_result import ExperimentResult
+from aem.shared.experiment_result import ExperimentResult
 import numpy as np
 
 

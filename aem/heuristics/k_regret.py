@@ -1,4 +1,4 @@
-from aem.heuristic import Heuristic
+from aem.heuristics.heuristic import Heuristic
 
 
 class KRegret(Heuristic):
