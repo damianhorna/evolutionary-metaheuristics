@@ -1,11 +1,20 @@
 from aem.tsp_reader import TSPReader
 from aem.greedy import Greedy
+from aem.plot_util import PlotUtil
 
-graph = TSPReader().read_as_graph("../data/kroA100.tsp")
-print("Adjacency matrix:")
-print(graph.adjacency_matrix)
+instances = [
+    "../data/kroA100.tsp",
+    "../data/kroB100.tsp"
+]
 
-greedy = Greedy(graph)
+for instance in instances:
+    print(f"Working on {instance}")
+    graph, coords = TSPReader().read_graph_with_coords(instance)
+    print("Adjacency matrix:")
+    print(graph.adjacency_matrix)
 
-greedy_result = greedy.run()
-greedy_result.print()
+    greedy = Greedy(graph)
+
+    greedy_result = greedy.run()
+    greedy_result.print()
+    PlotUtil.plot_best_cycle(greedy_result, coords, instance)

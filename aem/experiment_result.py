@@ -11,6 +11,3 @@ class ExperimentResult:
         print(f"Average: {self.average}")
         print(f"Min: {self.min}")
         print(f"Max: {self.max}")
-
-    def plot_best_cycle(self):
-        pass
