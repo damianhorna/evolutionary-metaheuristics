@@ -20,6 +20,10 @@ class Graph:
         closest_idx = valid_indices[self.adjacency_matrix[from_vertex, :][valid_indices].argmin()]
         return closest_idx
 
+    def get_closest_visited_idx(self, from_vertex, visited):
+        closest_idx = visited[self.adjacency_matrix[from_vertex, :][visited].argmin()]
+        return closest_idx
+
     def no_of_vertices(self) -> int:
         return self.adjacency_matrix.shape[0]
 
@@ -30,3 +34,6 @@ class Graph:
             v2 = cycle[(i+1) % len(cycle)]
             cycle_length += self.adjacency_matrix[v1, v2]
         return cycle_length
+
+    def cost(self, from_vertex, to_vertex):
+        return self.adjacency_matrix[from_vertex, to_vertex]

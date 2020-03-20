@@ -1,4 +1,5 @@
 from aem.utils.tsp_reader import TSPReader
+from aem.heuristics.nearest_neighbor import NearestNeighbor
 from aem.heuristics.greedy import Greedy
 from aem.utils.plot_util import PlotUtil
 
@@ -10,7 +11,7 @@ instances = [
 for instance in instances:
     print(f"Working on {instance}")
     graph, coords = TSPReader().read_graph_with_coords(instance)
-    methods = [Greedy(graph)]
+    methods = [NearestNeighbor(graph), Greedy(graph)]
     for method in methods:
         result = method.run()
         result.print()
