@@ -7,19 +7,18 @@ class Graph:
         self.adjacency_matrix = adjacency_matrix
         self.cache = {}
 
-    def get_closest_neighbor_index(self, vertex_no):
-        if vertex_no in self.cache:
-            return self.cache[vertex_no]
-        valid_idx = np.where(self.adjacency_matrix[vertex_no, :] != 0)[0]
-        out = valid_idx[self.adjacency_matrix[vertex_no, :][valid_idx].argmin()]
-        self.cache[vertex_no] = out
-        return out
+    def get_closest_neighbor_idx(self, from_vertex):
+        if from_vertex in self.cache:
+            return self.cache[from_vertex]
+        valid_indices = np.where(self.adjacency_matrix[from_vertex, :] != 0)[0]
+        closest_idx = valid_indices[self.adjacency_matrix[from_vertex, :][valid_indices].argmin()]
+        self.cache[from_vertex] = closest_idx
+        return closest_idx
 
-    def get_closest_unvisited_neighbor_index(self, visited):
-        vertex_no = visited[-1]
-        valid_idx = [idx for idx in range(self.no_of_vertices()) if idx not in visited]
-        out = valid_idx[self.adjacency_matrix[vertex_no, :][valid_idx].argmin()]
-        return out
+    def get_closest_unvisited_neighbor_idx(self, from_vertex, visited):
+        valid_indices = [idx for idx in range(self.no_of_vertices()) if idx not in visited]
+        closest_idx = valid_indices[self.adjacency_matrix[from_vertex, :][valid_indices].argmin()]
+        return closest_idx
 
     def no_of_vertices(self) -> int:
         return self.adjacency_matrix.shape[0]
