@@ -9,7 +9,7 @@ class Greedy:
     def build_cycle(self, start_vertex=0) -> list:
         cycle = [start_vertex]
         while len(cycle) < 50:
-            next_closest = self.graph.get_closest_neighbor_index(cycle[-1])
+            next_closest = self.graph.get_closest_unvisited_neighbor_index(cycle)
             cycle.append(next_closest)
         return cycle
 
@@ -25,6 +25,11 @@ class Greedy:
             lengths.append(c_length)
 
         lengths = np.array(lengths)
+        best_cycle_idx = int(np.argmin(lengths))
 
-        return ExperimentResult(np.mean(lengths), np.min(lengths), np.max(lengths), self.__class__.__name__)
+        return ExperimentResult(average_len=np.mean(lengths),
+                                min_len=np.min(lengths),
+                                max_len=np.max(lengths),
+                                best_cycle=cycles[best_cycle_idx],
+                                method_classname=self.__class__.__name__)
 

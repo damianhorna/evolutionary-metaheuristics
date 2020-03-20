@@ -15,6 +15,12 @@ class Graph:
         self.cache[vertex_no] = out
         return out
 
+    def get_closest_unvisited_neighbor_index(self, visited):
+        vertex_no = visited[-1]
+        valid_idx = [idx for idx in range(self.no_of_vertices()) if idx not in visited]
+        out = valid_idx[self.adjacency_matrix[vertex_no, :][valid_idx].argmin()]
+        return out
+
     def no_of_vertices(self) -> int:
         return self.adjacency_matrix.shape[0]
 
