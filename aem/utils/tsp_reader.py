@@ -1,5 +1,5 @@
 from aem.shared.graph import Graph
-from aem.utils.node import Node
+from aem.shared.node import Node
 import numpy as np
 
 
