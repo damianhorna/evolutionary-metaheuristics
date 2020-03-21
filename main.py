@@ -22,7 +22,7 @@ for instance in instances:
         result.print()
         PlotUtil.plot_best_cycle(result, graph.coords, instance)
 
-df = DataFrame.from_dict(results)
-df.to_csv("results.csv")
-with open("result.latex", "w") as f:
-    f.write(df.to_latex())
+    df = DataFrame.from_dict(results)
+    df.to_csv(f"results-{instance[8:-4]}.csv")
+    with open(f"result-{instance[8:-4]}.latex", "w") as f:
+        f.write(df.to_latex())
