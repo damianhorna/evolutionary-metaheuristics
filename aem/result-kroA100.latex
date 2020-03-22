@@ -1,9 +1,9 @@
-\begin{tabular}{lrrr}
+\begin{tabular}{lrrrr}
 \toprule
-{} &  NearestNeighbor &    Greedy &   KRegret \\
+{} &  NearestNeighbor &    Greedy &   KRegret &  KRegretFilter \\
 \midrule
-0 &          12792.8 &  12501.27 &  15733.67 \\
-1 &          10298.0 &  11095.00 &  14885.00 \\
-2 &          14877.0 &  13266.00 &  16729.00 \\
+0 &          12792.8 &  12501.27 &  15733.67 &       10632.28 \\
+1 &          10298.0 &  11095.00 &  14885.00 &        9537.00 \\
+2 &          14877.0 &  13266.00 &  16729.00 &       11981.00 \\
 \bottomrule
 \end{tabular}
