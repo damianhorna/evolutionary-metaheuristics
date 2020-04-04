@@ -6,8 +6,8 @@ from aem.utils.plot_util import PlotUtil
 from pandas import DataFrame
 
 instances = [
-    "data/kroA100.tsp",
-    "data/kroB100.tsp"
+    "../data/kroA100.tsp",
+    "../data/kroB100.tsp"
 ]
 
 results = {}

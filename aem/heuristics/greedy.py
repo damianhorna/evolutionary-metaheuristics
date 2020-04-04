@@ -1,6 +1,7 @@
 from aem.heuristics.heuristic import Heuristic
 from typing import List
 import numpy as np
+import math
 
 
 class Greedy(Heuristic):
@@ -29,7 +30,7 @@ class Greedy(Heuristic):
         next_vertex = self.graph.get_closest_unvisited_neighbor_idx(from_vertex=cycle[-1], visited=cycle)
         cycle.append(next_vertex)
 
-        while len(cycle) < self.graph.no_of_vertices() // 2:
+        while len(cycle) < math.ceil(self.graph.no_of_vertices() / 2):
             tmp, idx = self.get_insertion_costs(cycle)
             res = np.unravel_index(tmp.argmin(), tmp.shape)
             cycle.insert(res[1], idx[res[0]])

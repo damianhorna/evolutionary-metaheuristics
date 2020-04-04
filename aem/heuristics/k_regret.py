@@ -1,6 +1,6 @@
 from aem.heuristics.heuristic import Heuristic
 import numpy as np
-
+import math
 
 class KRegret(Heuristic):
     def __init__(self, graph, k=1):
@@ -13,8 +13,8 @@ class KRegret(Heuristic):
         cycle.append(next_vertex)
 
         available = [x for x in range(self.graph.no_of_vertices()) if x not in cycle]
-        excepted_no_of_vertices = self.graph.no_of_vertices() // 2
-        while len(cycle) < excepted_no_of_vertices:
+        expected_no_of_vertices = math.ceil(self.graph.no_of_vertices() / 2)
+        while len(cycle) < expected_no_of_vertices:
             costs = self.compute_insertion_costs(cycle, available)
 
             costs_sorted_idx = costs.argsort(axis=1)
@@ -46,10 +46,10 @@ class KRegretFilter(Heuristic):
         cycle.append(next_vertex)
 
         available = [x for x in range(self.graph.no_of_vertices()) if x not in cycle]
-        excepted_no_of_vertices = self.graph.no_of_vertices() // 2
-        while len(cycle) < excepted_no_of_vertices:
+        expected_no_of_vertices = math.ceil(self.graph.no_of_vertices() / 2)
+        while len(cycle) < expected_no_of_vertices:
             costs = self.compute_insertion_costs(cycle, available)
-            best_idx = np.argsort(np.min(costs, axis=1))[:excepted_no_of_vertices - len(cycle)]
+            best_idx = np.argsort(np.min(costs, axis=1))[:expected_no_of_vertices - len(cycle)]
 
             costs = costs[best_idx]
             costs_sorted_idx = costs.argsort(axis=1)
