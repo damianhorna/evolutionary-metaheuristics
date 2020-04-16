@@ -3,7 +3,7 @@ from aem.heuristics.lab3.steepest_heuristic import SteepestHeuristic
 
 
 class SteepestEdgeSwap(SteepestHeuristic):
-    def __int__(self, graph):
+    def __init__(self, graph):
         super().__init__(graph)
 
     def alter_cycle(self, cycle):

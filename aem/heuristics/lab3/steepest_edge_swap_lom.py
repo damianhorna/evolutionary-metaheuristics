@@ -3,9 +3,9 @@ from aem.heuristics.lab3.steepest_heuristic import SteepestHeuristic
 
 
 class SteepestEdgeSwapListOfMoves(SteepestHeuristic):
-    def __int__(self, graph):
-        super().__init__(graph)
+    def __init__(self, graph):
         self.l_of_moves = []
+        super().__init__(graph)
 
     def alter_cycle(self, cycle):
         for action in self.generate_action(cycle, self.graph):
