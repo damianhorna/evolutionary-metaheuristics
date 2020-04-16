@@ -1,0 +1,12 @@
+\begin{tabular}{lr}
+\toprule
+{} &  SteepestEdgeSwap \\
+\midrule
+0 &      12087.000000 \\
+1 &      12087.000000 \\
+2 &      12087.000000 \\
+3 &          2.304089 \\
+4 &          2.304089 \\
+5 &          2.304089 \\
+\bottomrule
+\end{tabular}

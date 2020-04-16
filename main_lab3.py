@@ -1,6 +1,7 @@
 from pandas import DataFrame
 
 from aem.heuristics.lab3.steepest_edge_swap import SteepestEdgeSwap
+from aem.heuristics.lab3.steepest_edge_swap_lom import SteepestEdgeSwapListOfMoves
 from aem.utils.plot_util import PlotUtil
 from aem.utils.tsp_reader import TSPReader
 
@@ -15,7 +16,7 @@ for instance in instances:
     print(f"Working on {instance}")
     graph = TSPReader().read_graph_with_coords(instance)
 
-    methods = [SteepestEdgeSwap(graph)]
+    methods = [SteepestEdgeSwap(graph), SteepestEdgeSwapListOfMoves(graph)]
     for method in methods:
         result = method.run(seed=13, number_of_experiments=1)
         results[result.method_classname] = [result.average, result.min, result.max, result.time_average,
