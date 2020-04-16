@@ -21,7 +21,7 @@ class NodeSwapActionFactory(ActionFactory):
 
     def generate(self, cycle, graph) -> Action:
         for (a, b) in pair_permutations(graph.no_of_vertices()):
-            if a < b or True:
+            if a < b:
                 action_inner = SwapInnerNodes(a, b)
                 action_outer = SwapInnerOuter(a, b)
                 if action_inner.is_valid(cycle, graph):

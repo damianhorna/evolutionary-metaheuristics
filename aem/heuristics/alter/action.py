@@ -117,6 +117,7 @@ class SwapInnerEdges(SwapInner):
         first_previous = cycle[first_pos - 1]
         second_next = cycle[(second_pos + 1) % len(cycle)]
         cycle_len = len(cycle)
+        # TODO FIX: hardcoded 49?
         if (second_pos-first_pos)%cycle_len in [1, 49]:
             if (second_pos+1)%cycle_len == first_pos:
                 first, first_pos, second, second_pos = self.second, second_pos, self.first, first_pos
