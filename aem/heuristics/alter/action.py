@@ -23,6 +23,12 @@ class SwapInnerOuter(Action):
     def __init__(self, first, second):
         super().__init__(first, second)
 
+    def __hash__(self):
+        return hash((self.first,self.second,self.__class__))
+
+    def __eq__(self, other):
+        return self.__class__ == other.__class__ and self.first == other.first and self.second == other.second
+
     def is_valid(self, cycle, graph):
         return (self.first in cycle) ^ (self.second in cycle)
 
@@ -109,6 +115,12 @@ class SwapInnerNodes(SwapInner):
 class SwapInnerEdges(SwapInner):
     def __init__(self, first, second):
         super().__init__(first, second)
+
+    def __hash__(self):
+        return hash((self.first, self.second, self.__class__))
+
+    def __eq__(self, other):
+        return self.__class__ == other.__class__ and self.first == other.first and self.second == other.second
 
     def get_delta(self, cycle, graph):
         first_pos = cycle.index(self.first)
