@@ -4,6 +4,8 @@ from aem.shared.experiment_result import ExperimentResult
 import numpy as np
 import time
 
+from aem.utils.plot_util import PlotUtil
+
 
 class SteepestHeuristic(Heuristic):
     def __init__(self, graph):
@@ -23,6 +25,8 @@ class SteepestHeuristic(Heuristic):
             start_time = time.time()
             while improved:
                 cycle, improved = self.alter_cycle(cycle)
+                # res = ExperimentResult(0, 0, 0, cycle, "steepest lom")
+                # PlotUtil.plot_best_cycle(res, self.graph.coords, "inst")
             cycles.append(cycle)
             times.append(time.time()-start_time)
         lengths = []

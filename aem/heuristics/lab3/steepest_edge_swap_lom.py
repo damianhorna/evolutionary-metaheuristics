@@ -10,10 +10,10 @@ class SteepestEdgeSwapListOfMoves(SteepestHeuristic):
 
     def alter_cycle(self, cycle):
         for action in self.generate_action(cycle, self.graph):
-            if (action.first, action.second) not in self.old_actions:
+            if action not in self.old_actions:
                 delta = action.get_delta(cycle, self.graph)
                 if delta < 0:
-                    self.old_actions.add((action.first, action.second))
+                    self.old_actions.add(action)
                     self.l_of_moves.append((action, delta))
 
         if len(self.l_of_moves) != 0:
@@ -23,7 +23,7 @@ class SteepestEdgeSwapListOfMoves(SteepestHeuristic):
                 self.filter_invalid_inner_outer(best_action, cycle)
             else:
                 self.filter_invalid_inner_edges(best_action, cycle)
-            self.old_actions = {(action.first, action.second) for (action, _) in self.l_of_moves}
+            self.old_actions = {action for (action, _) in self.l_of_moves}
             return best_action.alter(cycle, self.graph, True), True
         else:
             return cycle, False
@@ -35,31 +35,32 @@ class SteepestEdgeSwapListOfMoves(SteepestHeuristic):
         first_previous = cycle[first_pos - 1]
         second_next = cycle[(second_pos + 1) % len(cycle)]
 
-        first_next = cycle[(first_pos + 1) % len(cycle)]
-        second_previous = cycle[second_pos - 1]
-
-        banned = {first_previous, first_next, second_previous, second_next}
+        banned = {first_previous, second_next}
         steps = (second_pos - first_pos) % len(cycle)
         for i in range((steps + 1) // 2):
             first_iter = (first_pos + i) % len(cycle)
             second_iter = (second_pos - i) % len(cycle)
             banned.add(cycle[first_iter])
             banned.add(cycle[second_iter])
+
         self.l_of_moves = [(action, delta) for (action, delta) in self.l_of_moves if
                            action.first not in banned and action.second not in banned]
 
     def filter_invalid_inner_outer(self, best_action, cycle):
-        first_previous, first_next, second_previous, second_next = None, None, None, None
+        banned = {best_action.first, best_action.second}
         if best_action.first in cycle:
             first_pos = cycle.index(best_action.first)
             first_previous = cycle[first_pos - 1]
             first_next = cycle[(first_pos + 1) % len(cycle)]
+            banned.add(first_next)
+            banned.add(first_previous)
 
         if best_action.second in cycle:
             second_pos = cycle.index(best_action.second)
             second_next = cycle[(second_pos + 1) % len(cycle)]
             second_previous = cycle[second_pos - 1]
-        banned = {first_previous, first_next, second_previous, second_next, best_action.first, best_action.second}
+            banned.add(second_next)
+            banned.add(second_previous)
         self.l_of_moves = [(action, delta) for (action, delta) in self.l_of_moves if
                            action.first not in banned and action.second not in banned]
 
