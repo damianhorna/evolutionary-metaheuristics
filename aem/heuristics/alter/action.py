@@ -129,14 +129,8 @@ class SwapInnerEdges(SwapInner):
         first_previous = cycle[first_pos - 1]
         second_next = cycle[(second_pos + 1) % len(cycle)]
         cycle_len = len(cycle)
-        # TODO FIX: hardcoded 49?
-        if (second_pos-first_pos)%cycle_len in [1, 99]:
-            if (second_pos+1)%cycle_len == first_pos:
-                self.first, first_pos, self.second, second_pos = self.second, second_pos, self.first, first_pos
-            else:
-                self.first, first_pos, self.second, second_pos = self.first, first_pos, self.second, second_pos
-            first_previous = cycle[first_pos - 1]
-            second_next = cycle[(second_pos + 1) % len(cycle)]
+        if second_next == self.first:
+            return 0
 
         return graph.adjacency_matrix[first_previous][self.second] + graph.adjacency_matrix[self.first][second_next] - \
                (graph.adjacency_matrix[first_previous][self.first] + graph.adjacency_matrix[self.second][second_next])
