@@ -6,14 +6,15 @@ class SteepestEdgeSwap(SteepestHeuristic):
     def __init__(self, graph):
         super().__init__(graph)
 
-    def alter_cycle(self, cycle, actions):
-        best_action = None
+    def alter_cycle(self, cycle):
+        moves = self.all_moves(cycle)
+        best_move = None
         best_delta = 0
-        for action in actions:
-            delta = action.get_delta(self.graph)
+        for move in moves:
+            delta = move.get_delta(self.graph)
             if delta < best_delta:
                 best_delta = delta
-                best_action = action
-        if best_action is not None:
-            return best_action.alter(cycle), True
+                best_move = move
+        if best_move is not None:
+            return best_move.alter(cycle), True
         return cycle, False

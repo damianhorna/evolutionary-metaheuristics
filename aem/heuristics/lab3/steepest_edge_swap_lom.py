@@ -1,29 +1,31 @@
-import itertools
-
-from aem.heuristics.alter.action_factory import pair_permutations, SwapInnerEdges, SwapInnerOuter
 from aem.heuristics.lab3.steepest_heuristic import SteepestHeuristic
 
 
 class SteepestEdgeSwapListOfMoves(SteepestHeuristic):
     def __init__(self, graph):
-        self.l_of_moves = []
+        self.LM = []
         super().__init__(graph)
-        self.old_actions = set()
+        self.new_moves = None
+        self.LM_lookup = set()
 
     def alter_cycle(self, cycle):
-        for action in self.generate_action(cycle, self.graph):
-            if action not in self.old_actions:
-                delta = action.get_delta(cycle, self.graph)
-                if delta < 0:
-                    self.old_actions.add(action)
-                    self.l_of_moves.append((action, delta))
+        if self.new_moves is None: # first iteration
+            self.new_moves = self.all_moves(cycle)
+        else:
+            # TODO: how to generate new moves smarter?
+            self.new_moves = [move for move in self.all_moves(cycle) if move not in self.LM_lookup]
+        for move in self.new_moves:
+            delta = move.get_delta(self.graph)
+            move.delta = delta
+            if delta < 0:
+                self.LM.append(move)
 
+        self.LM = [move for move in self.LM if move.is_applicable(cycle)]
+        self.LM.sort(key=lambda m: m.delta)
+        self.LM_lookup = set(self.LM)
 
-
-        if len(self.l_of_moves) != 0:
-            self.l_of_moves.sort(key=lambda x: x[1])
-            best_action, best_delta = self.l_of_moves[0]
-            self.old_actions = {action for (action, _) in self.l_of_moves}
-            return best_action.alter(cycle, self.graph, True), True
+        if len(self.LM) > 0:
+            best_move = self.LM[0]
+            return best_move.alter(cycle), True
         else:
             return cycle, False
