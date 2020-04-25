@@ -35,10 +35,10 @@ class SteepestEdgeSwapListOfMoves(SteepestHeuristic):
 
     def add_new_moves(self, best_move, altered_cycle):
         self.new_moves = []
-        not_in_cycle = set(range(self.graph.no_of_vertices())) - set(altered_cycle)
+        outer_vertices = set(range(self.graph.no_of_vertices())) - set(altered_cycle)
         if isinstance(best_move, EdgeSwap):
-            added_edge1 = (best_move.succ_n2, best_move.succ_n1)
-            added_edge2 = (best_move.n2, best_move.n1)
+            added_edge1 = (best_move.succ_n1, best_move.succ_n2)
+            added_edge2 = (best_move.n1, best_move.n2)
             edges = []
             for i in range(len(altered_cycle)):
                 edges.append((altered_cycle[i], altered_cycle[(i + 1) % len(altered_cycle)]))
@@ -51,7 +51,7 @@ class SteepestEdgeSwapListOfMoves(SteepestHeuristic):
             new_n1_prev = altered_cycle[altered_cycle.index(best_move.n1) - 1]
             new_succ_n1_prev = altered_cycle[altered_cycle.index(best_move.succ_n1) - 1]
             new_succ_n2_succ = altered_cycle[(altered_cycle.index(best_move.succ_n2) + 1) % len(altered_cycle)]
-            for v in not_in_cycle:
+            for v in outer_vertices:
                 self.new_moves.append(NodeSwap(best_move.n1, v, (new_n1_prev, best_move.n2)))
                 self.new_moves.append(NodeSwap(best_move.n2, v, (best_move.n1, new_n2_succ)))
                 self.new_moves.append(NodeSwap(best_move.succ_n1, v, (new_succ_n1_prev, best_move.succ_n2)))
@@ -69,11 +69,25 @@ class SteepestEdgeSwapListOfMoves(SteepestHeuristic):
 
         elif isinstance(best_move, NodeSwap):
             new_inner_pos = altered_cycle.index(best_move.outer)
-            for v in not_in_cycle:
+            for v in outer_vertices:
                 new_node_swap = NodeSwap(best_move.outer,
                                          v,
                                          (altered_cycle[new_inner_pos - 1], altered_cycle[(new_inner_pos + 1) % len(altered_cycle)]))
                 self.new_moves.append(new_node_swap)
+
+                #todo add more node swaps (on the left and on the right are different now)
+                prev_0 = altered_cycle[altered_cycle.index(best_move.inner_neighbors[0]) - 1]
+                next_1 = altered_cycle[(altered_cycle.index(best_move.inner_neighbors[1]) + 1) % len(altered_cycle)]
+                self.new_moves.append(NodeSwap(
+                    best_move.inner_neighbors[0],
+                    v,
+                    (prev_0, best_move.outer)
+                ))
+                self.new_moves.append(NodeSwap(
+                    best_move.inner_neighbors[1],
+                    v,
+                    (best_move.outer, next_1)
+                ))
             edges = []
             for i in range(len(altered_cycle)):
                 edges.append((altered_cycle[i], altered_cycle[(i + 1) % len(altered_cycle)]))
