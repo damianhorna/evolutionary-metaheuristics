@@ -7,14 +7,10 @@ class SteepestEdgeSwapListOfMoves(SteepestHeuristic):
         self.LM = []
         super().__init__(graph)
         self.new_moves = None
-        self.LM_lookup = set()
 
     def alter_cycle(self, cycle):
-        if self.new_moves is None:  # first iteration
+        if self.new_moves is None:  # first iteration new_moves = all_moves
             self.new_moves = self.all_moves(cycle)
-        # else:
-        #     # TODO: how to generate new moves smarter?
-        #     self.new_moves = [move for move in self.all_moves(cycle) if move not in self.LM_lookup]
         for move in self.new_moves:
             delta = move.get_delta(self.graph)
             move.delta = delta
@@ -23,7 +19,6 @@ class SteepestEdgeSwapListOfMoves(SteepestHeuristic):
 
         self.LM = [move for move in self.LM if move.is_applicable(cycle)]
         self.LM.sort(key=lambda m: m.delta)
-        self.LM_lookup = set(self.LM)
 
         if len(self.LM) > 0:
             best_move = self.LM[0]
