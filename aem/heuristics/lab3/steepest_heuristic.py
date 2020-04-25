@@ -53,7 +53,7 @@ class SteepestHeuristic(Heuristic):
                                 time_max=np.max(times)
                                 )
 
-    def all_moves(self, cycle):
+    def all_moves(self, cycle):  # complexity: cycle_len * not_in_cycle_len or ~ (n/2) * (n/2)
         cycle_set = set(cycle)
         graph_set = set(range(self.graph.no_of_vertices()))
         not_in_cycle = graph_set - cycle_set
