@@ -16,7 +16,7 @@ for instance in instances:
     print(f"Working on {instance}")
     graph = TSPReader().read_graph_with_coords(instance)
 
-    methods = [SteepestEdgeSwapListOfMoves(graph), ] #SteepestEdgeSwap(graph)] # ,SteepestEdgeSwapListOfMoves(graph),
+    methods = [SteepestEdgeSwapListOfMoves(graph)] #SteepestEdgeSwap(graph)] # ,SteepestEdgeSwapListOfMoves(graph),
     for method in methods:
         result = method.run(seed=13, number_of_experiments=1)
         results[result.method_classname] = [result.average, result.min, result.max, result.time_average,
