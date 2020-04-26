@@ -38,3 +38,8 @@ class Graph:
 
     def cost(self, from_vertex, to_vertex):
         return self.adjacency_matrix[from_vertex, to_vertex]
+
+    def nearest_neighbors(self, v, k):
+        valid_indices = np.where(self.adjacency_matrix[v, :] != 0)[0]
+        closest_indices = valid_indices[np.argsort(self.adjacency_matrix[v, :][valid_indices])]
+        return closest_indices[:k]
