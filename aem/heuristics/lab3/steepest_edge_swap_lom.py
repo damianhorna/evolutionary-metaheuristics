@@ -70,3 +70,7 @@ class SteepestEdgeSwapListOfMoves(SteepestHeuristic):
             for edge in edges:
                 self.new_moves.append(EdgeSwap(added_edge1, edge))
                 self.new_moves.append(EdgeSwap(added_edge2, edge))
+
+    def reset(self):
+        self.LM = []
+        self.new_moves = None

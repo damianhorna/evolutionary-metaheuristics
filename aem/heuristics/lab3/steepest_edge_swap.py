@@ -18,3 +18,6 @@ class SteepestEdgeSwap(SteepestHeuristic):
         if best_move is not None:
             return best_move.alter(cycle), True
         return cycle, False
+
+    def reset(self):
+        pass

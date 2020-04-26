@@ -38,3 +38,5 @@ class SteepestEdgeSwapCandidate(SteepestHeuristic):
                 else: # NodeSwap
                     yield NodeSwap(n1, n2, (cycle[cycle.index(n1) - 1], cycle[(cycle.index(n1) + 1) % len(cycle)]))
 
+    def reset(self):
+        pass

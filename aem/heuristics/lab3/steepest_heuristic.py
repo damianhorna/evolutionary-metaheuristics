@@ -29,6 +29,7 @@ class SteepestHeuristic(Heuristic):
         for cycle in start_cycles:
             improved = True
             start_time = time.time()
+            self.reset()
             while improved:
                 cycle, improved = self.alter_cycle(cycle)
                 # res = ExperimentResult(0, 0, 0, cycle, "steepest lom")

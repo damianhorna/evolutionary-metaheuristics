@@ -7,8 +7,8 @@ from aem.utils.plot_util import PlotUtil
 from aem.utils.tsp_reader import TSPReader
 
 instances = [
-    "data/kroA100.tsp",
-    "data/kroB100.tsp"
+    "data/kroA200.tsp",
+    "data/kroB200.tsp"
 ]
 
 results = {}
@@ -17,9 +17,9 @@ for instance in instances:
     print(f"Working on {instance}")
     graph = TSPReader().read_graph_with_coords(instance)
 
-    methods = [SteepestEdgeSwapCandidate(graph, 5)]#[SteepestEdgeSwapListOfMoves(graph), SteepestEdgeSwap(graph)] #SteepestEdgeSwap(graph)] # ,SteepestEdgeSwapListOfMoves(graph),
+    methods = [SteepestEdgeSwapCandidate(graph, 7), SteepestEdgeSwapListOfMoves(graph), SteepestEdgeSwap(graph)]
     for method in methods:
-        result = method.run(seed=13, number_of_experiments=1)
+        result = method.run(seed=13, number_of_experiments=100)
         results[result.method_classname] = [result.average, result.min, result.max, result.time_average,
                                             result.time_min, result.time_max]
         result.print()
