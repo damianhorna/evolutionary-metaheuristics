@@ -36,7 +36,14 @@ class SteepestEdgeSwapCandidate(SteepestHeuristic):
                     else:
                         yield es2
                 else: # NodeSwap
-                    yield NodeSwap(n1, n2, (cycle[cycle.index(n1) - 1], cycle[(cycle.index(n1) + 1) % len(cycle)]))
+                    n1_prev = cycle[cycle.index(n1) - 1]
+                    n1_next = cycle[(cycle.index(n1) + 1) % len(cycle)]
+                    ns1 = NodeSwap(n1_prev, n2, (cycle[cycle.index(n1_prev) - 1], n1))
+                    ns2 = NodeSwap(n1_next, n2, (n1, cycle[(cycle.index(n1_next) + 1) % len(cycle)]))
+                    if ns1.get_delta(self.graph) < ns2.get_delta(self.graph):
+                        yield ns1
+                    else:
+                        yield ns2
 
     def reset(self):
         pass
