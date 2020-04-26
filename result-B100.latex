@@ -1,12 +1,12 @@
-\begin{tabular}{lr}
+\begin{tabular}{lrr}
 \toprule
-{} &  SteepestEdgeSwapListOfMoves \\
+{} &  SteepestEdgeSwapListOfMoves &  SteepestEdgeSwap \\
 \midrule
-0 &                  12884.00000 \\
-1 &                  12884.00000 \\
-2 &                  12884.00000 \\
-3 &                      0.27996 \\
-4 &                      0.27996 \\
-5 &                      0.27996 \\
+0 &                 12884.000000 &      12087.000000 \\
+1 &                 12884.000000 &      12087.000000 \\
+2 &                 12884.000000 &      12087.000000 \\
+3 &                     0.253875 &          0.689624 \\
+4 &                     0.253875 &          0.689624 \\
+5 &                     0.253875 &          0.689624 \\
 \bottomrule
 \end{tabular}

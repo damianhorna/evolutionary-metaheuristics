@@ -16,6 +16,5 @@ class PlotUtil:
         for i, (x,y) in enumerate(zip(all_x, all_y)):
             plt.annotate(f"{i}", (x,y), textcoords="offset points", xytext=(0,4), ha="center", fontsize=9)
         plt.plot(cycle_coords_x + [cycle_coords_x[0]], cycle_coords_y + [cycle_coords_y[0]], c='r')
-        plt.show()
         plt.savefig(f"aem/plots/{res.method_classname}-{instance[8:-4]}-best.png")
         plt.close()
