@@ -3,6 +3,7 @@ class EdgeSwap:
         self.n1, self.succ_n1 = edge1
         self.n2, self.succ_n2 = edge2
 
+
     def __hash__(self):
         return hash(((self.n1, self.succ_n1), (self.n2, self.succ_n2)))
 
@@ -13,14 +14,26 @@ class EdgeSwap:
                self.n2 == other.n2 and \
                self.succ_n2 == other.succ_n2
 
+    def __lt__(self, other):
+        return True
+
     def is_applicable(self, cycle):
         if self.n1 in cycle and self.n2 in cycle and self.succ_n1 in cycle and self.succ_n2 in cycle:
             n1_idx = cycle.index(self.n1)
-            if self.succ_n1 != cycle[(n1_idx + 1) % len(cycle)]:
+            n1_succ_idx = cycle.index(self.succ_n1)
+            if (n1_idx-n1_succ_idx)%len(cycle) not in [0, len(cycle)-1]:
                 return False
             n2_idx = cycle.index(self.n2)
-            if self.succ_n2 != cycle[(n2_idx + 1)% len(cycle)]:
+            n2_succ_idx = cycle.index(self.succ_n2)
+
+            if (n2_idx - n2_succ_idx) % len(cycle) not in [0, len(cycle) - 1]:
                 return False
+            # n1_idx = cycle.index(self.n1)
+            # if self.succ_n1 != cycle[(n1_idx + 1) % len(cycle)]:
+            #     return False
+            # n2_idx = cycle.index(self.n2)
+            # if self.succ_n2 != cycle[(n2_idx + 1)% len(cycle)]:
+            #     return False
             return True
         return False
 
@@ -55,6 +68,9 @@ class NodeSwap:
                self.inner == other.inner and \
                self.outer == other.outer and \
                self.inner_neighbors == other.inner_neighbors
+
+    def __lt__(self, other):
+        return True
 
     def is_applicable(self, cycle):
         if self.inner in cycle and self.outer not in cycle:

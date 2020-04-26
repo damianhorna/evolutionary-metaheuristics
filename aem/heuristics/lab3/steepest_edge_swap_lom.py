@@ -1,6 +1,7 @@
 from aem.heuristics.lab3.moves import EdgeSwap, NodeSwap
 from aem.heuristics.lab3.steepest_heuristic import SteepestHeuristic
 
+import heapq
 
 class SteepestEdgeSwapListOfMoves(SteepestHeuristic):
     def __init__(self, graph):
@@ -8,25 +9,32 @@ class SteepestEdgeSwapListOfMoves(SteepestHeuristic):
         super().__init__(graph)
         self.new_moves = None
 
+
     def alter_cycle(self, cycle):
         if self.new_moves is None:  # first iteration new_moves = all_moves
-            self.new_moves = self.all_moves(cycle)
-        for move in self.new_moves:
-            delta = move.get_delta(self.graph)
-            move.delta = delta
-            if delta < 0:
-                self.LM.append(move)
-
-        self.LM = [move for move in self.LM if move.is_applicable(cycle)]
-        self.LM.sort(key=lambda m: m.delta)
-
-        if len(self.LM) > 0:
-            best_move = self.LM[0]
-            altered_cycle = best_move.alter(cycle)
-            self.add_new_moves(best_move, altered_cycle)
-            return altered_cycle, True
+            self.LM = list(map(lambda x: (x.get_delta(self.graph), x), self.all_moves(cycle)))
+            heapq.heapify(self.LM)
         else:
+            self.new_moves = map(lambda x: (x.get_delta(self.graph), x), self.new_moves)
+            self.new_moves = filter(lambda x: x[0] < 0, self.new_moves)
+
+            for move in self.new_moves:
+                heapq.heappush(self.LM, move)
+
+        move = None
+        delta = 0
+        if len(self.LM) > 0:
+            delta, move = heapq.heappop(self.LM)
+            while not move.is_applicable(cycle) or delta != move.get_delta(self.graph):
+                if len(self.LM) == 0:
+                    break
+                delta, move = heapq.heappop(self.LM)
+
+        if move is None or delta >= 0 or move.get_delta(self.graph) != delta or not move.is_applicable(cycle):
             return cycle, False
+        altered_cycle = move.alter(cycle)
+        self.add_new_moves(move, cycle)
+        return altered_cycle, True
 
     def add_new_moves(self, best_move, altered_cycle):
         self.new_moves = []
@@ -50,10 +58,8 @@ class SteepestEdgeSwapListOfMoves(SteepestHeuristic):
             second_pos = altered_cycle.index(best_move.succ_n2)
             steps = (second_pos - first_pos) % len(altered_cycle)
             for edge in edges:
-                for i in range(steps):
-                    n3 = altered_cycle[(first_pos + i) % len(altered_cycle)]
-                    succ_n3 = altered_cycle[(first_pos + i + 1) % len(altered_cycle)]
-                    self.new_moves.append(EdgeSwap((n3, succ_n3), edge))
+                self.new_moves.append(EdgeSwap((best_move.n1, best_move.n2), edge))
+                self.new_moves.append(EdgeSwap((best_move.succ_n1, best_move.succ_n2), edge))
 
         elif isinstance(best_move, NodeSwap):
             new_inner_pos = altered_cycle.index(best_move.outer)
