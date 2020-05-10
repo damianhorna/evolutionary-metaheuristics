@@ -1,3 +1,4 @@
+from aem.heuristics.alter.action import SwapInnerNodes
 from aem.heuristics.lab3.moves import EdgeSwap, NodeSwap
 from aem.heuristics.lab3.steepest_heuristic import SteepestHeuristic
 
@@ -76,7 +77,36 @@ class SteepestEdgeSwapListOfMoves(SteepestHeuristic):
             for edge in edges:
                 self.new_moves.append(EdgeSwap(added_edge1, edge))
                 self.new_moves.append(EdgeSwap(added_edge2, edge))
-
+        elif isinstance(best_move, SwapInnerNodes):
+            new_inner_pos = altered_cycle.index(best_move.first)
+            neigh_left = altered_cycle[new_inner_pos - 1]
+            neigh_right = altered_cycle[(new_inner_pos + 1) % len(altered_cycle)]
+            neigh_left_prev = altered_cycle[new_inner_pos - 2]
+            neigh_right_succ = altered_cycle[(new_inner_pos + 2) % len(altered_cycle)]
+            for v in outer_vertices:
+                self.new_moves.append(NodeSwap(best_move.first, v, (neigh_left, neigh_right)))
+                self.new_moves.append(NodeSwap(neigh_left, v, (neigh_left_prev, best_move.first)))
+                self.new_moves.append(NodeSwap(neigh_right, v, (best_move.first, neigh_right_succ)))
+            added_edge1 = (neigh_left, best_move.first)
+            added_edge2 = (best_move.first, neigh_right)
+            for edge in edges:
+                self.new_moves.append(EdgeSwap(added_edge1, edge))
+                self.new_moves.append(EdgeSwap(added_edge2, edge))
+            #Second
+            new_inner_pos = altered_cycle.index(best_move.second)
+            neigh_left = altered_cycle[new_inner_pos - 1]
+            neigh_right = altered_cycle[(new_inner_pos + 1) % len(altered_cycle)]
+            neigh_left_prev = altered_cycle[new_inner_pos - 2]
+            neigh_right_succ = altered_cycle[(new_inner_pos + 2) % len(altered_cycle)]
+            for v in outer_vertices:
+                self.new_moves.append(NodeSwap(best_move.second, v, (neigh_left, neigh_right)))
+                self.new_moves.append(NodeSwap(neigh_left, v, (neigh_left_prev, best_move.second)))
+                self.new_moves.append(NodeSwap(neigh_right, v, (best_move.second, neigh_right_succ)))
+            added_edge1 = (neigh_left, best_move.second)
+            added_edge2 = (best_move.second, neigh_right)
+            for edge in edges:
+                self.new_moves.append(EdgeSwap(added_edge1, edge))
+                self.new_moves.append(EdgeSwap(added_edge2, edge))
     def reset(self):
         self.LM = []
         self.new_moves = None
