@@ -34,7 +34,7 @@ class HybridEvolutionary(SteepestEdgeSwapListOfMoves, Greedy):
                 y, improved = self.alter_cycle(y)
             # jeżeli y jest lepsze od najgorszego i rozne od wszystkich w pop
             # dodaj y do pop i usun najgorsze
-            worst_in_pop_idx = np.argmin(population[:,1])
+            worst_in_pop_idx = np.argmax(population[:,1])
             worst_in_pop = population[worst_in_pop_idx]
             y_fitness = self.graph.compute_cycle_length(y)
             if y_fitness < worst_in_pop[1]:
