@@ -18,7 +18,6 @@ class HybridEvolutionary(SteepestEdgeSwapListOfMoves, Greedy):
         population = np.array(start_population)
         self.reset()
         start_time = time.time()
-        best_cycle = None
         generations = 0
         while time.time()-start_time < time_limit:
             generations += 1
@@ -30,6 +29,7 @@ class HybridEvolutionary(SteepestEdgeSwapListOfMoves, Greedy):
             y = self.recombine(parent_a, parent_b)
             # local search
             improved = True
+            self.reset()
             while improved:
                 y, improved = self.alter_cycle(y)
             # jeżeli y jest lepsze od najgorszego i rozne od wszystkich w pop
