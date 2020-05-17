@@ -37,12 +37,26 @@ class HybridEvolutionary(SteepestEdgeSwapListOfMoves, Greedy):
             worst_in_pop_idx = np.argmax(population[:,1])
             worst_in_pop = population[worst_in_pop_idx]
             y_fitness = self.graph.compute_cycle_length(y)
-            if y_fitness < worst_in_pop[1]:
+            if y_fitness < worst_in_pop[1]: # sprawdz czy przypadkiem y nie znajduje sie juz w populacji
                 population[worst_in_pop_idx] = np.array((y, y_fitness))
 
         return population[np.argmin(population[:,1])][0],generations
 
     def recombine(self, parent_a, parent_b):
+        common_vertices = set(parent_a).intersection(set(parent_b))
+        edges_a = []
+        edges_b = []
+        for i in range(len(parent_a)):
+            edges_a.append((parent_a[i], parent_a[(i + 1) % len(parent_a)]))
+            edges_b.append((parent_b[i], parent_b[(i + 1) % len(parent_b)]))
+
+        common_edges = set(edges_a).intersection(set(edges_b))
+
+
+        # znajdź wspólne podścieżki
+        # zbuduj z podścieżek rozwiązanie początkowe
+        # dolosuj resztę z rodziców
+
         return parent_a
 
     def run(self, seed=None, time_limit=1, population_size=20, number_of_experiments=1) -> ExperimentResult:
