@@ -1,12 +1,12 @@
 \begin{tabular}{lr}
 \toprule
-{} &  SteepestEdgeSwapCandidate \\
+{} &  HybridEvolutionary \\
 \midrule
-0 &               17748.020000 \\
-1 &               15321.000000 \\
-2 &               21006.000000 \\
-3 &                   2.059348 \\
-4 &                   1.727821 \\
-5 &                   2.493949 \\
+0 &             14342.0 \\
+1 &             14342.0 \\
+2 &             14342.0 \\
+3 &               695.0 \\
+4 &               695.0 \\
+5 &               695.0 \\
 \bottomrule
 \end{tabular}
