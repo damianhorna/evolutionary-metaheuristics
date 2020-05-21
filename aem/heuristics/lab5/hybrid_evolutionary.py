@@ -79,11 +79,11 @@ class HybridEvolutionary(SteepestEdgeSwapListOfMoves, Greedy):
             for c in com:
                 common_vertices.remove(c)
 
-            if len(com) > 1:
-                commons_length += len(com)
-                commons.append(com)
-                for x in com:
-                    used_nodes.add(x)
+           # if len(com) > 1:
+            commons_length += len(com)
+            commons.append(com)
+            for x in com:
+                used_nodes.add(x)
         while commons_length != len(parent_a):
 
             #x = parent_a[np.random.randint(len(parent_a))]
