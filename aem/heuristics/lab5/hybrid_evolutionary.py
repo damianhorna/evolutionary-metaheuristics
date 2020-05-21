@@ -42,22 +42,69 @@ class HybridEvolutionary(SteepestEdgeSwapListOfMoves, Greedy):
 
         return population[np.argmin(population[:,1])][0],generations
 
+    def find_longest_common_sequence(self, list_a, list_b, poz_a, poz_b):
+        first = -1
+        while list_a[poz_a+first] == list_b[poz_b+first]:
+            first -= 1
+        first += 1
+
+        last = 1
+        while list_a[(poz_a+last)%len(list_a)] == list_b[(poz_b+last)%len(list_b)]:
+            last += 1
+        res = []
+        poz = first
+
+        while poz != last:
+            res.append(list_a[(poz_a+poz)%len(list_a)])
+            poz += 1
+        return res
+
     def recombine(self, parent_a, parent_b):
         common_vertices = set(parent_a).intersection(set(parent_b))
-        edges_a = []
-        edges_b = []
-        for i in range(len(parent_a)):
-            edges_a.append((parent_a[i], parent_a[(i + 1) % len(parent_a)]))
-            edges_b.append((parent_b[i], parent_b[(i + 1) % len(parent_b)]))
+        indexes_a = {v:i for i,v in enumerate(parent_a)}
+        indexes_b = {v:i for i,v in enumerate(parent_b)}
 
-        common_edges = set(edges_a).intersection(set(edges_b))
+        commons = []
+        commons_length = 0
+        used_nodes = set()
+        while len(common_vertices) > 0:
+            idx = common_vertices.pop()
+            common_vertices.add(idx)
+            poz_a = indexes_a[idx]
+            poz_b = indexes_b[idx]
+            com = self.find_longest_common_sequence(parent_a, parent_b, poz_a, poz_b)
+            com_reverse = self.find_longest_common_sequence(parent_a, parent_b[::-1], poz_a, (len(parent_b)-poz_b-1))
+            if len(com) < len(com_reverse):
+                com = com_reverse
+            for c in com:
+                common_vertices.remove(c)
 
+            if len(com) > 1:
+                commons_length += len(com)
+                commons.append(com)
+                for x in com:
+                    used_nodes.add(x)
+        while commons_length != len(parent_a):
 
-        # znajdź wspólne podścieżki
-        # zbuduj z podścieżek rozwiązanie początkowe
-        # dolosuj resztę z rodziców
+            #x = parent_a[np.random.randint(len(parent_a))]
+            if np.random.randn() < 0:
+                x = np.random.choice(parent_a)
+            else:
+                x = np.random.choice(parent_b)
 
-        return parent_a
+            if x not in used_nodes:
+                commons.append([x])
+                commons_length += 1
+                used_nodes.add(x)
+
+        np.random.shuffle(commons)
+        #commons.sort(key=lambda x: indexes_a[x[0]] if x[0] in indexes_a else indexes_b[x[0]])
+        res = []
+
+        for x in commons:
+            res.extend(x)
+
+        return res
 
     def run(self, seed=None, time_limit=1, population_size=20, number_of_experiments=1) -> ExperimentResult:
         if seed:
