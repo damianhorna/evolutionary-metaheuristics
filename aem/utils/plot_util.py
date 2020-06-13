@@ -14,7 +14,7 @@ class PlotUtil:
         plt.title(f"{res.method_classname} best cycle ({instance[8:-4]})")
         plt.scatter(all_x, all_y, s=25)
         for i, (x,y) in enumerate(zip(all_x, all_y)):
-            plt.annotate(f"{i+1}", (x,y), textcoords="offset points", xytext=(0,4), ha="center", fontsize=9)
+            plt.annotate(f"{i}", (x,y), textcoords="offset points", xytext=(0,4), ha="center", fontsize=9)
         plt.plot(cycle_coords_x + [cycle_coords_x[0]], cycle_coords_y + [cycle_coords_y[0]], c='r')
-        plt.savefig(f"plots/{res.method_classname}-{instance[8:-4]}-best.png")
+        plt.savefig(f"aem/plots/{res.method_classname}-{instance[8:-4]}-best.png")
         plt.close()

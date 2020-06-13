@@ -27,6 +27,9 @@ class Greedy(Heuristic):
 
     def build_cycle(self, start_vertex=0) -> list:
         cycle = [start_vertex]
+        return self.extend_cycle(cycle)
+
+    def extend_cycle(self, cycle):
         next_vertex = self.graph.get_closest_unvisited_neighbor_idx(from_vertex=cycle[-1], visited=cycle)
         cycle.append(next_vertex)
 
