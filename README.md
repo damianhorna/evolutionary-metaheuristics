@@ -10,4 +10,4 @@ Implemented:
 * Multiple start local search
 * Hybrid-evolutionary algorithm
 
-![sample cycle][img.png]
+![sample cycle](img.png)
